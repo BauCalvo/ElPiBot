@@ -1,0 +1,12 @@
+{
+  "name": "elpibot",
+  "version": "1.0.0",
+  "repository": "https://github.com/BauCalvo/ElPiBot.git",
+  "author": "baucalvo <baucalvo@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}
