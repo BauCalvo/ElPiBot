@@ -4,7 +4,7 @@ require('dotenv/config')
 const {fetch} = require('undici')
 const romans = require('romans');
 
-const bauchoId = "pneU6bUTxo-WXRvm5cODPgQJORFaTYAjM72KWlIDOPf-XtCSLHArWYUJSDzdNJjfWQTjs3KzYDSA3g";
+// const bauchoId = "pneU6bUTxo-WXRvm5cODPgQJORFaTYAjM72KWlIDOPf-XtCSLHArWYUJSDzdNJjfWQTjs3KzYDSA3g";
 const playersSummonerIds = [process.env.yo,process.env.coca,process.env.cuecin,process.env.juan,process.env.lucas,process.env.valen]
 const TIERS = ['IRON','BRONZE','SILVER','GOLD','PLATINUM','EMERALD','DIAMOND','MASTER']
 
@@ -36,9 +36,11 @@ const getPuuidByName = async(name)=>{
     const data = await response.json();
     return data.puuid;
 }
-const getMatchesListBy = async(puuid)=>{
+const getMatchesList = async(puuid)=>{
     const link = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${process.env.API_KEY}&start=0&count=10`;
     const response = await fetch(link);
+    const data = await response.json();
+    return data;
 }
 
 const getLastMatchResultByName = async(nombre)=>{
