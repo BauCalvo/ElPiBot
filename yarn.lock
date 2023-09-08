@@ -157,6 +157,11 @@ chokidar@^3.5.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
+"colors@>= 0.6.2":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
+  integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -336,6 +341,11 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
+romans@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/romans/-/romans-2.0.8.tgz#1d488ba16c8d63126aee5a577baf6ccc190a3953"
+  integrity sha512-bEF8h1R7JCY1oYhydhC2i+TkV1Teq+BIfbicZZLIcVBJnZweYN8TwBb+9N8zhCmxFswcJzfLP7CH4pTxXYfCYQ==
+
 semver@^7.5.3:
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.4.tgz#483986ec4ed38e1c6c48c34894a9182dbff68a6e"
@@ -354,6 +364,13 @@ streamsearch@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
+
+string-table@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/string-table/-/string-table-0.1.5.tgz#87dad749fb054ef501637bba39a168f1585e4e68"
+  integrity sha512-T5IKcbeKe1oi+Ulw0DDrx6prXidf8bXBjOLo8/FD3ACjkrkhWp5k1/AmBPwAUNohx/i/wdpW75c6zyRC5jlrMw==
+  dependencies:
+    colors ">= 0.6.2"
 
 supports-color@^5.5.0:
   version "5.5.0"

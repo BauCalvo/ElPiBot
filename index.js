@@ -1,7 +1,12 @@
 const { Client, GatewayIntentBits } = require('discord.js')
+const stringTable = require("string-table")
 require('dotenv/config')
 const {fetch} = require('undici')
-const PUUID="pneU6bUTxo-WXRvm5cODPgQJORFaTYAjM72KWlIDOPf-XtCSLHArWYUJSDzdNJjfWQTjs3KzYDSA3g"
+const romans = require('romans');
+
+const bauchoId = "pneU6bUTxo-WXRvm5cODPgQJORFaTYAjM72KWlIDOPf-XtCSLHArWYUJSDzdNJjfWQTjs3KzYDSA3g";
+const playersSummonerIds = [process.env.yo,process.env.coca,process.env.cuecin,process.env.juan,process.env.lucas,process.env.valen]
+const TIERS = ['IRON','BRONZE','SILVER','GOLD','PLATINUM','EMERALD','DIAMOND','MASTER']
 
 const client = new Client({
     intents: [
@@ -11,15 +16,18 @@ const client = new Client({
     ]
 })
 
-client.on('ready',()=>{
-
+client.on('ready',async()=>{
     console.log("bot listo");
-
+    // console.log(await getRanksArray(playersSummonerIds));
 })
 
 client.on('messageCreate', async message =>{
     if(message.content.match("!ultimoGame")){
         const response = await getLastMatchResultByName(message.content.slice(11));
+        message.reply(response)
+    }else if(message.content.match("!ranking")){
+        const list = await getRanksArray(playersSummonerIds)
+        const response =stringTable.create(sortByRank(list))
         message.reply(response)
     }
 })
@@ -28,10 +36,9 @@ const getPuuidByName = async(name)=>{
     const data = await response.json();
     return data.puuid;
 }
-const getMatchesList = async(puuid)=>{
+const getMatchesListBy = async(puuid)=>{
     const link = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${process.env.API_KEY}&start=0&count=10`;
     const response = await fetch(link);
-    return await response.json();
 }
 
 const getLastMatchResultByName = async(nombre)=>{
@@ -47,5 +54,41 @@ const getLastMatchResultByName = async(nombre)=>{
     return win?"carriaste hard":"te fuiste gapeado bro";
 
 }
+
+const getSoloQueueRankBySID = async(summonerId)=>{
+    let link = `https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${process.env.API_KEY}`
+    const response = await fetch(link);
+    //rawData es un array con 2 posiciones, en la posicion 0 la info de flex y en la posicion 1 la infop de solo queue
+    const rawData = await response.json();
+    let j = rawData.filter(item=> item.queueType === "RANKED_SOLO_5x5")
+    return {
+        summonerName:j[0].summonerName,
+        tier:j[0].tier,
+        rank:j[0].rank,
+        lp:j[0].leaguePoints
+    }
+}
+const getRanksArray = async(lista)=>{
+    return Promise.all(lista.map(async (item) => {
+        return await getSoloQueueRankBySID(item);
+      }));
+}
+const sortByRank = (lista)=>{
+    return lista.sort(compareRanks);
+}
+const compareRanks= (a,b)=>{
+    let result = 0;
+    if((TIERS.indexOf(b.tier) - TIERS.indexOf(a.tier)) != 0){
+        result = TIERS.indexOf(b.tier) - TIERS.indexOf(a.tier);
+    }else{
+        if((romans.deromanize(a.rank) - romans.deromanize(b.rank)) != 0){
+            result = romans.deromanize(a.rank) - romans.deromanize(b.rank);
+        }else{
+            result = b.lp - a.lp
+        }
+    }
+    return result;
+}
+
 
 client.login(process.env.TOKEN);
