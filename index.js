@@ -31,11 +31,26 @@ client.on('messageCreate', async message =>{
         message.reply(response)
     }
 })
+
+
 const getPuuidByName = async(name)=>{
     const response = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`);
-    const data = await response.json();
-    return data.puuid;
-}
+    console.log(response.ok);
+    response.then(res =>
+        res.json()).then(d => {
+            console.log(d)
+        })
+ }
+// const getPuuidByName = async(name)=>{
+//     const fetchResponse = await fetch(`https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`).then((response)=>{
+//         if(!response.ok){
+//             throw new Error("Not 2xx response", {cause: fetchResponse});
+//         }else{
+//             let data = response.json();
+//             return data.puuid;
+//         }
+//     });
+// }
 const getMatchesList = async(puuid)=>{
     const link = `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?api_key=${process.env.API_KEY}&start=0&count=10`;
     const response = await fetch(link);
@@ -75,9 +90,8 @@ const getRanksArray = async(lista)=>{
         return await getSoloQueueRankBySID(item);
       }));
 }
-const sortByRank = (lista)=>{
-    return lista.sort(compareRanks);
-}
+const sortByRank = (lista)=>lista.sort(compareRanks);
+
 const compareRanks= (a,b)=>{
     let result = 0;
     if((TIERS.indexOf(b.tier) - TIERS.indexOf(a.tier)) != 0){
