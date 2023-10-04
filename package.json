@@ -10,6 +10,9 @@
     "romans": "^2.0.8",
     "string-table": "^0.1.5"
   },
+  "scripts": {
+    "start": "node index.js"
+  },
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
