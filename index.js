@@ -92,16 +92,19 @@ const getMatchMetaDataById = async (matchId) => {
 
 
 const getRanksArray = async (lista) => {
-    return Promise.all(lista.map(async (item) => {
-        return await getSoloQueueRankBySID(item);
+    return Promise.all(lista.map(async (summonerId) => {
+        return await getSoloQueueRankBySID(summonerId);
     }));
 }
 const getSoloQueueRankBySID = async (summonerId) => {
     let link = `https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${process.env.API_KEY}`
     const response = await fetch(link);
-    //rawData es un array con 2 posiciones, en la posicion 0 la info de flex y en la posicion 1 la infop de solo queue
+    //rawData es un array con 2 posiciones, en una la info de flex y en la otra info de solo queue
     const rawData = await response.json();
     let j = rawData.filter(item => item.queueType === "RANKED_SOLO_5x5")
+    if(!j){
+        return "no tiene rank"; 
+    }
     return {
         summonerName: j[0].summonerName,
         tier: j[0].tier,
